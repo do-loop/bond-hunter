@@ -14,23 +14,35 @@
     using Objects.Enums;
     using Responses;
 
-    public sealed class GetDataQuery : Query<HunterData>
+    public sealed class GetDataListQuery : Query<HunterData>
     {
         private readonly HttpClient _client;
 
-        public GetDataQuery(HttpClient client, string query) : base(new [] { query })
+        public GetDataListQuery(HttpClient client, string[] queries) : base(queries)
         {
             _client = client ?? throw new ArgumentException(nameof(client));
         }
 
         protected override async Task<HunterData> ExecuteInternalAsync()
         {
-            var request = new RequestBuilder(HunterSettings.BaseUrl)
-                .SetParameters(Parameters).SetType("json")
-                .SetQuery(Queries.First())
+            var items = Queries.Select(x => new
+            {
+                query = x,
+                fields = Parameters.GetValueOrDefault(FieldsKey),
+                lang = Parameters.GetValueOrDefault(LanguageKey)
+            });
+
+            var request = JsonConvert.SerializeObject(items, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
+
+            var url = new RequestBuilder(HunterSettings.BaseUrl)
+                .SetParameters(Parameters)
+                .SetType("batch")
                 .Build();
 
-            var message = await _client.GetAsync(request);
+            var message = await _client.PostAsync(url, new StringContent(request));
 
             if (message.IsSuccessStatusCode == false)
                 throw new HunterException($"Status Code: {message.StatusCode}.");
@@ -39,25 +51,25 @@
 
             return new HunterData
             {
-                Response = new [] { JsonConvert.DeserializeObject<HunterResponse>(json) },
+                Response = JsonConvert.DeserializeObject<HunterResponse[]>(json),
                 RemainingRequests = message.Headers.GetHeaderValue<int>("X-Rl"),
                 LimitExpirationInSeconds = message.Headers.GetHeaderValue<int>("X-Ttl")
             };
         }
 
-        public GetDataQuery Language(HunterLanguage value)
+        public GetDataListQuery Language(HunterLanguage value)
         {
             AppendParameter(LanguageKey, value);
             return this;
         }
 
-        public GetDataQuery Fields(IEnumerable<HunterField> values)
+        public GetDataListQuery Fields(IEnumerable<HunterField> values)
         {
             AppendParameter(FieldsKey, values.ToArray());
             return this;
         }
 
-        public GetDataQuery Fields(params HunterField[] values)
+        public GetDataListQuery Fields(params HunterField[] values)
         {
             AppendParameter(FieldsKey, values);
             return this;

@@ -1,6 +1,7 @@
 ﻿namespace BondHunter
 {
     using System;
+    using System.Collections.Generic;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using Core;
@@ -9,6 +10,10 @@
     public interface IHunterClient
     {
         GetDataQuery GetData(string query);
+
+        GetDataListQuery GetData(IEnumerable<string> query);
+
+        GetDataListQuery GetData(params string[] query);
     }
 
     public static class HunterClientFactory

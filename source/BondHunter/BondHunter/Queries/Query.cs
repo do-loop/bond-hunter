@@ -9,7 +9,21 @@
 
     public abstract class Query<TResponse>
     {
+        protected const string FieldsKey = "fields";
+
+        protected const string LanguageKey = "lang";
+
+        protected string[] Queries { get; }
+
         protected Dictionary<string, string> Parameters = new Dictionary<string, string>();
+
+        protected Query(string[] queries)
+        {
+            if (queries.IsEmpty() || queries.Length > 100 || queries.Any(string.IsNullOrWhiteSpace))
+                throw new ArgumentException(nameof(queries));
+
+            Queries = queries;
+        }
 
         public TResponse Execute() => ExecuteAsync().WaitTask();
 

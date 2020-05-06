@@ -12,6 +12,13 @@
             _urlBuilder = new UrlBuilder(baseUrl);
         }
 
+        public RequestBuilder SetType(string value)
+        {
+            _urlBuilder.AppendSection(value);
+
+            return this;
+        }
+
         public RequestBuilder SetQuery(string value)
         {
             _urlBuilder.AppendSection(value);

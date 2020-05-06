@@ -1,5 +1,6 @@
 ﻿namespace BondHunter.Objects
 {
+    using System;
     using Responses;
 
     public sealed class HunterData
@@ -8,6 +9,6 @@
 
         public int LimitExpirationInSeconds { get; set; }
 
-        public HunterResponse Response { get; set; }
+        public HunterResponse[] Response { get; set; } = Array.Empty<HunterResponse>();
     }
 }

@@ -2,6 +2,6 @@
 {
     internal static class HunterSettings
     {
-        public const string BaseUrl = "http://ip-api.com/json/";
+        public const string BaseUrl = "http://ip-api.com/";
     }
 }
