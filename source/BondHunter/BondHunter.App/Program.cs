@@ -16,11 +16,13 @@
             var client = HunterClientFactory.Create();
 
             var data = await client.GetData("46.174.55.174", "151.80.113.111")
-                .Fields(HunterField.CountryCode) // optional, default: returns all
+                .Fields(HunterField.CountryCode, HunterField.Query) // optional, default: returns all
                 .ExecuteAsync();
 
             Console.WriteLine(data.Response[0].CountryCode);
+            Console.WriteLine(data.Response[0].Query);
             Console.WriteLine(data.Response[1].CountryCode);
+            Console.WriteLine(data.Response[1].Query);
 
             Console.WriteLine(data.RemainingRequests);
             Console.WriteLine(data.LimitExpirationInSeconds);
@@ -34,6 +36,7 @@
 
             var data = await client.GetData("46.174.55.174")
                 .Language(HunterLanguage.Russian) // optional, default: english
+                .Fields(HunterField.Query)        // optional, default: returns all
                 .ExecuteAsync();
 
             Console.WriteLine(data.Response[0].Status);
@@ -51,6 +54,7 @@
             Console.WriteLine(data.Response[0].RegionName);
             Console.WriteLine(data.Response[0].TimeZone);
             Console.WriteLine(data.Response[0].Zip);
+            Console.WriteLine(data.Response[0].Query);
 
             Console.WriteLine(data.RemainingRequests);
             Console.WriteLine(data.LimitExpirationInSeconds);

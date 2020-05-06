@@ -11,9 +11,9 @@
     {
         GetDataQuery GetData(string query);
 
-        GetDataListQuery GetData(IEnumerable<string> query);
+        GetDataListQuery GetData(IEnumerable<string> queries);
 
-        GetDataListQuery GetData(params string[] query);
+        GetDataListQuery GetData(params string[] queries);
     }
 
     public static class HunterClientFactory

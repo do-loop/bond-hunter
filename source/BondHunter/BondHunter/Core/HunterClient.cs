@@ -24,7 +24,7 @@
             return new GetDataQuery(_client, query);
         }
 
-        public GetDataListQuery GetData(IEnumerable<string> query) => GetData(query.ToArray());
+        public GetDataListQuery GetData(IEnumerable<string> queries) => GetData(queries.ToArray());
 
         public GetDataListQuery GetData(params string[] queries)
         {

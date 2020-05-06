@@ -47,6 +47,9 @@
         TimeZone,
 
         [EnumMember(Value = "currency")]
-        Currency
+        Currency,
+
+        [EnumMember(Value = "query")]
+        Query
     }
 }
