@@ -25,19 +25,11 @@
 
         protected override async Task<HunterData> ExecuteInternalAsync()
         {
-            var items = Queries.Select(x => new
-            {
-                query = x,
-                fields = Parameters.GetValueOrDefault(FieldsKey),
-                lang = Parameters.GetValueOrDefault(LanguageKey)
-            });
+            var items = Queries.Select(x => new { query = x });
 
-            var request = JsonConvert.SerializeObject(items, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            });
-
+            var request = JsonConvert.SerializeObject(items);
             var url = new RequestBuilder(HunterSettings.BaseUrl)
+                .SetParameters(Parameters)
                 .SetType("batch")
                 .Build();
 
