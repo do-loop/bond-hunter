@@ -38,7 +38,6 @@
             });
 
             var url = new RequestBuilder(HunterSettings.BaseUrl)
-                .SetParameters(Parameters)
                 .SetType("batch")
                 .Build();
 
