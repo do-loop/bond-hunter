@@ -3,8 +3,8 @@ Simple library for fetching geolocation data by IP address
 
 ### See More
 
-https://ip-api.com/docs (JSON only supported)
-
+* https://ip-api.com/docs (JSON only supported)
+* [NuGet Package](https://www.nuget.org/packages/BondHunter/)
 
 ### Usage
 
